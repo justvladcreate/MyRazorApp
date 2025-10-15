@@ -1,0 +1,33 @@
+@page
+@model MyRazorApp.Pages.Products.EditModel
+@{
+    <div class="mt-4">
+        <h2>Редактирование товара</h2>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="">@Model.AmountProduct</div>
+                <div class="">@Model.ColourProduct</div>
+            </div>
+            <div class="col-12">
+                <form method="post">
+                    <div class="field">
+                        <input asp-for="AmountProduct" name="AmountProduct" placeholder="Количество товара" type="text" class="text-field" />
+                    </div>
+                    <div class="field">
+                        <input asp-for="ColourProduct" name="ColourProduct" placeholder="Цвет товара" type="text" class="text-field" />
+                    </div>
+                    <div class="field">
+                        <button type="submit">Отправить</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-12">
+                    <div class="">@Model.Message</div>
+                <div>
+                    <a href="/Products/Index">Вернутся назад</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
