@@ -1,28 +1,38 @@
+using ExampleApplication.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MyRazorApp.Pages.Products
+namespace ExampleApplication.Pages.Products
 {
     public class EditModel : PageModel
     {
         [BindProperty]
-        public int AmountProduct { get; set; } = 0;
-        [BindProperty]
-        public string ColourProduct { get; set; } = "";
-        public string Message { get; set; } = "";
-        public void OnGet()
+        public Product MyProduct { get; set; } = new Product();
+        public void OnGet(int Id)
         {
-            AmountProduct = 5;
-            ColourProduct = "Зелёный";
+            var localproduct = FakeDatabase._products.Where(x => x.Id == Id).FirstOrDefault();
+            if (localproduct != null)
+            {
+                MyProduct = localproduct;
+            }
         }
 
-        public void OnPost()
+        public IActionResult OnPost()
         {
-            var amount = AmountProduct;
-            var colour = ColourProduct;
-            Message = $"Сообщение для сохранения? Количество: {amount} Цвет: {colour}";
-
-
+            var localproduct = FakeDatabase._products.Where(x => x.Id == MyProduct.Id).FirstOrDefault();
+            if (localproduct != null && MyProduct.Name != "�����")
+            {
+                localproduct.Name = MyProduct.Name;
+                localproduct.Code = MyProduct.Code;
+                localproduct.Price = MyProduct.Price;
+                localproduct.Quantity = MyProduct.Quantity;
+                TempData["Response"] = "����� ��������������";
+            }
+            else
+            {
+                TempData["Response"] = "����� �� ��������";
+            }
+            return RedirectToPage("Index");
         }
     }
 }

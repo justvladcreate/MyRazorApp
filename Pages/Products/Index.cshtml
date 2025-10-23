@@ -1,11 +1,69 @@
 @page
-@model MyRazorApp.Pages.Products.IndexModel
+@using ExampleApplication.Helpers
+@model ExampleApplication.Pages.Products.IndexModel
+@{
+    ViewData["Title"] = "Список товаров";
+}
+@{
+    <div class="mt-4">
+        <h2>Товары</h2>
 
-<div>
-    <h1>Товары</h1>
-    <p>Страница товаров</p>
-    
-    <div>
-        <a href="/Products/Edit">Редактировать товар</a>
+        <div class="row">
+            <div class="col-12">
+                @TempData["Response"]
+            </div>
+            <form method="get" class="col-12">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Поиск" value="@Model.SearchText" name="searchText">
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" name="price">
+                    <label class="form-check-label" for="switchCheckDefault">Сортировать по цене</label>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" name="income">
+                    <label class="form-check-label" for="switchCheckDefault">Сортировать по доход</label>
+                </div>
+                <div class="input-group mb-3">
+                    <button type="submit" class="btn btn-primary">Применить фильтры</button>
+                </div>
+            </form>
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Наименование</th>
+                            <th scope="col">Код</th>
+                            <th scope="col">Цена</th>
+                            <th scope="col">Количество</th>
+                            <th scope="col">Доход</th>
+                            <th scope="col">НДС</th>
+                            <th scope="col">Прибыль</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model.localProducts)
+                        {
+                            var nds = 20;
+
+                            var profit = product.Income - (product.Income / 100 * nds);
+                            <tr> 
+                                <th scope="row">@product.Id</th>
+                                <td>@product.Name</td>
+                                <td>@product.Code</td>
+                                <td>@product.Price ₽</td>
+                                <td>@product.Quantity</td>
+                                <td>@product.Income ₽</td>
+                                <td>@nds %</td>
+                                <td>@profit ₽</td>
+                                <td><a href="/Products/Edit?Id=@product.Id">Редактировать</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</div>
+}
