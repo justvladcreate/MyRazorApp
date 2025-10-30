@@ -1,0 +1,70 @@
+@page
+@model ExampleApplication.Pages.Products.DeleteModel
+@{
+    ViewData["Title"] = "Удаление товара";
+}
+
+<div class="mt-4">
+    <div class="d-flex align-items-center mb-4">
+        <a href="/Products/Index" class="btn btn-outline-secondary me-3"><i class="bi bi-arrow-left"></i></a>
+        <h2 class="mb-0"><i class="bi bi-trash"></i> Удаление товара</h2>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Подтвердите удаление</h5>
+                </div>
+                <div class="card-body">
+                    @if (!string.IsNullOrEmpty(TempData["Response"] as string))
+                    {
+                        <div class="alert alert-@((TempData["ResponseType"] as string) ?? "info") alert-dismissible fade show">
+                            @TempData["Response"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+                    
+                    @if (Model.Product != null)
+                    {
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle-fill"></i> <strong>Внимание!</strong> Вы уверены, что хотите удалить этот товар? Это действие нельзя отменить.
+                        </div>
+
+                        <div class="card bg-light mb-4">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="bi bi-info-circle"></i> Информация о товаре</h6>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="mb-2"><strong><i class="bi bi-hash"></i> ID:</strong> @Model.Product.Id</p>
+                                        <p class="mb-2"><strong><i class="bi bi-tag"></i> Название:</strong> @Model.Product.Name</p>
+                                        <p class="mb-2"><strong><i class="bi bi-upc"></i> Код:</strong> @Model.Product.Code</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="mb-2"><strong><i class="bi bi-currency-dollar"></i> Цена:</strong> @Model.Product.Price ₽</p>
+                                        <p class="mb-2"><strong><i class="bi bi-cart"></i> Количество:</strong> @Model.Product.Quantity</p>
+                                        <p class="mb-2"><strong><i class="bi bi-graph-up"></i> Доход:</strong> @Model.Product.Income ₽</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form method="post">
+                            <input type="hidden" name="Id" value="@Model.Product.Id" />
+                            <div class="d-flex justify-content-end gap-2">
+                                <a href="/Products/Index" class="btn btn-secondary">
+                                    <i class="bi bi-x-circle"></i> Отмена
+                                </a>
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-trash-fill"></i> Да, удалить товар
+                                </button>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
